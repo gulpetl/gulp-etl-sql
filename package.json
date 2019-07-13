@@ -1,0 +1,48 @@
+{
+  "name": "gulp-etl-query",
+  "version": "1.0.0",
+  "repository": "https://github.com/gulpetl/gulp-etl-handlelines",
+  "description": "Run SQL queries on a gulp-etl Message Stream",
+  "main": "dist/js/plugin.js",
+  "typings": "dist/types/plugin.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "npm run clean",
+    "clean": "rimraf dist/*",
+    "test": "jest"
+  },
+  "author": "peterl@sbcotton.com",
+  "license": "MIT",
+  "keywords": [
+    "gulpplugin",
+    "gulp-etl"
+  ],
+  "homepage": "https://gulpetl.com",
+  "dependencies": {
+    "gulp-error-handle": "^1.0.1",
+    "loglevel": "^1.6.3",
+    "pkginfo": "^0.4.1",
+    "plugin-error": "^1.0.1",
+    "split2": "^3.1.1",
+    "through2": "^3.0.1",
+    "vinyl": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/gulp-rename": "0.0.33",
+    "@types/jest": "^23.3.14",
+    "@types/loglevel": "^1.6.3",
+    "@types/node": "^10.14.12",
+    "@types/vinyl": "^2.0.3",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^1.4.0",
+    "jest": "^24.8.0",
+    "jest-spec-reporter": "^1.0.6",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.5.3"
+  }
+}

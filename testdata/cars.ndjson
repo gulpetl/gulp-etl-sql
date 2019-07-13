@@ -1,0 +1,4 @@
+{"type":"RECORD","stream":"cars","record":{"carModel":"Mercedes","price":"20000","color":"yellow"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"Audi","price":"10000","color":"blue"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"BMW","price":"15000","color":"red"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"Porsche","price":"30000","color":"green"}}

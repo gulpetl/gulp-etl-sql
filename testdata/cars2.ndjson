@@ -1,0 +1,4 @@
+{"type":"RECORD","stream":"cars2","record":{"zcarModel":"Audi","price":"10000","color":"blue"}}
+{"type":"RECORD","stream":"cars2","record":{"zcarModel":"BMW","price":"15000","color":"red"}}
+{"type":"RECORD","stream":"cars2","record":{"zcarModel":"Mercedes","price":"20000","color":"yellow"}}
+{"type":"RECORD","stream":"cars2","record":{"zcarModel":"Porsche","price":"30000","color":"green"}}

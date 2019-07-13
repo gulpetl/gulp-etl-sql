@@ -1,0 +1,5 @@
+{"type":"RECORD","stream":"CARS","record":{"carModel":"Mercedes","price":"20000","color":"yellow"},"extraParam":1}
+{"type":"RECORD","stream":"DISCOUNT","record":{"Discounted Price":"18000"},"extraParam":1}
+{"type":"RECORD","stream":"CARS","record":{"carModel":"Audi","price":"10000","color":"blue"},"extraParam":1}
+{"type":"RECORD","stream":"CARS","record":{"carModel":"BMW","price":"15000","color":"red"},"extraParam":1}
+{"type":"RECORD","stream":"CARS","record":{"carModel":"Porsche","price":"30000","color":"green"},"extraParam":1}
