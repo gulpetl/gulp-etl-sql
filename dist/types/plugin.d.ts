@@ -1,1 +1,1 @@
-export declare function query(configObj?: any): any;
+export declare function sql(configObj?: any): any;

@@ -1,6 +1,6 @@
 {
   "name": "gulp-etl-sql",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "https://github.com/gulpetl/gulp-etl-sql",
   "description": "Run SQL queries on a gulp-etl Message Stream",
   "main": "dist/js/plugin.js",
