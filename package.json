@@ -1,7 +1,7 @@
 {
-  "name": "gulp-etl-query",
+  "name": "gulp-etl-sql",
   "version": "1.0.0",
-  "repository": "https://github.com/gulpetl/gulp-etl-handlelines",
+  "repository": "https://github.com/gulpetl/gulp-etl-sql",
   "description": "Run SQL queries on a gulp-etl Message Stream",
   "main": "dist/js/plugin.js",
   "typings": "dist/types/plugin.d.ts",
@@ -18,15 +18,19 @@
   "license": "MIT",
   "keywords": [
     "gulpplugin",
-    "gulp-etl"
+    "gulp-etl",
+    "gulp",
+    "sql",
+    "query"
   ],
   "homepage": "https://gulpetl.com",
   "dependencies": {
+    "alasql": "^0.4.11",
     "gulp-error-handle": "^1.0.1",
+    "gulp-etl-transform-json": "^1.0.2",
     "loglevel": "^1.6.3",
     "pkginfo": "^0.4.1",
     "plugin-error": "^1.0.1",
-    "split2": "^3.1.1",
     "through2": "^3.0.1",
     "vinyl": "^2.2.0"
   },
