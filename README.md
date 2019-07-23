@@ -1,69 +1,48 @@
-# gulp-etl-query #
+# gulp-etl-sql #
 
-*This plugin is being created from **[gulp-etl-handlelines](https://www.npmjs.com/package/gulp-etl-handlelines)**; the original readme for gulp-etl-handlelines is below*
-
-Utility function providing a "handleline" callback which is called for every record in a **gulp-etl** **Message Stream**. This very powerful functionality can be used for filtering, transformations, counters, etc. and is a nice way to add functionality without building a full module. It also powers a number of our other modules, greatly simplifying their development by handling the "boilerplate" code needed for a module. Works in both buffer and streaming mode.
+**gulp-etl-sql** runs SQL queries against a Message Stream. It is a wrapper for [alasql](https://www.npmjs.com/package/alasql), which uses a subset of standard SQL-99 plus additional syntax for handling schema-less data. Query results are returned as a Message Stream. Since the Message Stream must be fully loaded in order to be queried, only buffer mode is available.
 
 This is a **[gulp-etl](https://gulpetl.com/)** plugin, and as such it is a [gulp](https://gulpjs.com/) plugin. **gulp-etl** plugins work with [ndjson](http://ndjson.org/) data streams/files which we call **Message Streams** and which are compliant with the [Singer specification](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#output). Message Streams look like this:
 
 ```
-{"type": "SCHEMA", "stream": "users", "key_properties": ["id"], "schema": {"required": ["id"], "type": "object", "properties": {"id": {"type": "integer"}}}}
-{"type": "RECORD", "stream": "users", "record": {"id": 1, "name": "Chris"}}
-{"type": "RECORD", "stream": "users", "record": {"id": 2, "name": "Mike"}}
-{"type": "SCHEMA", "stream": "locations", "key_properties": ["id"], "schema": {"required": ["id"], "type": "object", "properties": {"id": {"type": "integer"}}}}
-{"type": "RECORD", "stream": "locations", "record": {"id": 1, "name": "Philadelphia"}}
-{"type": "STATE", "value": {"users": 2, "locations": 1}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"Mercedes","price":"20000","color":"yellow"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"Audi","price":"10000","color":"blue"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"BMW","price":"15000","color":"red"}}
+{"type":"RECORD","stream":"cars","record":{"carModel":"Porsche","price":"30000","color":"green"}}
 ```
 
 ### Usage
 **gulp-etl** plugins accept a configObj as its first parameter. The configObj
 will contain any info the plugin needs.
 
-In addition, this plugin also accepts a TransformCallback function. That function will receive a 
-Singer message object (a [RECORD](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#record-message), [SCHEMA](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#schema-message) or [STATE](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#state-message)) and is expected to return either the Singer message object (whether transformed or unchanged) to be passed downstream, an array of singer messages or ```null``` to remove the message from the stream).
+- `sql : string` The SQL code to be executed
+    - example:  ``{sql: 'select carModel, price, color from ?'}``
+- `includeWrapper : boolean = false` If true, includes the entire record wrapper as the incoming data
+    - example: ``{includeWrapper: true, sql: 'select type, stream, record from ?'}``
 
-This plugin also accepts a FinishCallback and StartCallback, which are functions that are executed before and after the TransformCallback. The FinishCallback can be used to manage data stored collected from the stream. 
+The simplest query takes all RECORD lines record objects as a table (referenced as '?'), as in the exmples above.
 
-Send in callbacks as a second parameter in the form: 
+Also, note the usage of the "property" (`->`) [operator](https://github.com/agershun/alasql/wiki/Operators) to access nested data:
 
 ```
-{
-    transformCallback: tranformFunction,
-    finishCallback: finishFunction,
-    startCallback: startFunction
-}
+{includeWrapper: true, sql: 'select type, stream, record->carModel, record->price, record->color from ?'}
 ```
+
 
 ##### Sample gulpfile.js
 ```
-var handleLines = require('gulp-etl-handlelines').handlelines
+var sql = require('gulp-etl-sql').sql
 // for TypeScript use this line instead:
-// import { handlinelines } from 'gulp-etl-handlelines'
-
-const linehandler = (lineObj) => {
-    // return null to remove this line
-    if (!lineObj.record || lineObj.record["TestValue"] == 'illegalValue') {return null}
-    
-    // optionally make changes to lineObj
-    lineObj.record["NewProperty"] = "asdf"
-
-    // return the changed lineObj
-    return lineObj
-}
+// import { sql } from 'gulp-etl-sql'
 
 exports.default = function() {
     return src('data/*.ndjson')
-    // pipe the files through our handlelines plugin
-    .pipe(handlelines({}, { transformCallback: linehandler }))
+    .pipe(sql({sql:'select * from ?'}))
     .pipe(dest('output/'));
 }
 ```
-### Model Plugin
-This plugin is intended to be a model **gulp-etl** plugin, usable as a template to be forked to create new plugins for other uses. It is compliant with [best practices for gulp plugins](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md#what-does-a-good-plugin-look-like), and it properly handles both [buffers](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/using-buffers.md) and [streams](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/dealing-with-streams.md).
 
-
-
-### Quick Start
+### Quick Start for Coding on this Plugin
 * Dependencies: 
     * [git](https://git-scm.com/downloads)
     * [nodejs](https://nodejs.org/en/download/releases/) - At least v6.3 (6.9 for Windows) required for TypeScript debugging

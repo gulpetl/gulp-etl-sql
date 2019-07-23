@@ -6,6 +6,7 @@ const PLUGIN_NAME = module.exports.name;
 import * as loglevel from 'loglevel'
 import * as alasql from 'alasql'
 import * as transformJson from 'gulp-etl-transform-json'
+const combiner = require('stream-combiner')
 
 const log = loglevel.getLogger(PLUGIN_NAME) // get a logger instance based on the project name
 log.setLevel((process.env.DEBUG_LEVEL || 'warn') as loglevel.LogLevelDesc)
@@ -13,7 +14,7 @@ log.setLevel((process.env.DEBUG_LEVEL || 'warn') as loglevel.LogLevelDesc)
 /* This is a model gulp-etl plugin. It is compliant with best practices for Gulp plugins (see
 https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md#what-does-a-good-plugin-look-like ),
 but with an additional feature: it accepts a configObj as its first parameter */
-export function query(configObj?: any) {
+export function sql(configObj?: any) {
 
 
   // creating a stream through which each file will pass
@@ -53,7 +54,13 @@ export function query(configObj?: any) {
 
   // startHandler();
 
-  return strm
+  // return strm
+  return combiner(
+    transformJson.targetJson({changeMap:true,mapFullStreamObj:configObj.includeWrapper}),
+    strm,
+    transformJson.tapJson({changeMap:true})
+  )
+
   // .pipe(transformJson.tapJson({changeMap:true}));
 
   // return transformJson.targetJson({changeMap:true,mapFullStreamObj:false})
